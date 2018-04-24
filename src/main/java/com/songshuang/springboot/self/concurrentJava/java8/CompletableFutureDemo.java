@@ -1,7 +1,10 @@
 package com.songshuang.springboot.self.concurrentJava.java8;
 
+import lombok.Data;
+
 import java.util.concurrent.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
 
@@ -13,6 +16,8 @@ import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
 public class CompletableFutureDemo {
 
   public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+    CompletableFutureTest();
 
     simpleDemo();
 
@@ -33,6 +38,24 @@ public class CompletableFutureDemo {
     applyToEitherDemo();
 
     thenComposeDemo();
+  }
+
+  @Data
+  private static class FutureMessage {
+    private String message;
+  }
+
+  private static void CompletableFutureTest() {
+
+    CompletableFuture completableFuture = CompletableFuture.supplyAsync(() -> new FutureMessage()).thenApplyAsync(message -> {
+      message.setMessage("World");
+      return message;
+    }).thenRun( () -> {
+      System.out.println("Return");
+    });
+
+    completableFuture.join();
+    System.out.printf("Test result is %s\n", completableFuture.join());
   }
 
   /**
