@@ -11,6 +11,5 @@ public class CompletionStageDemo {
 
   public static void main(String[] args) {
 
-    CompletionStage
   }
 }
