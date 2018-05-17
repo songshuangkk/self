@@ -14,7 +14,9 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -71,5 +73,10 @@ public class RedisTest implements CommandLineRunner {
     public void setName(String name) {
       this.name = name;
     }
+  }
+
+  public static void main(String[] args) {
+    Date date = new Date(1515653804296L);
+    System.out.printf("Year = %s, month = %s, day = %s", date.getYear(), date.getMonth(), date.getDay());
   }
 }
