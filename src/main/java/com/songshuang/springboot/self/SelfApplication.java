@@ -1,14 +1,10 @@
 package com.songshuang.springboot.self;
 
-import com.songshuang.springboot.self.rocketmq.ProducerDemo;
-import org.apache.rocketmq.client.exception.MQBrokerException;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.remoting.exception.RemotingException;
+import com.songshuang.springboot.self.annotation.AnnotationDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,15 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SelfApplication {
 
-	@Autowired
-	private ProducerDemo producerDemo;
+  @Autowired
+  private AnnotationDemo annotationDemo;
 
 	public static void main(String[] args) {
 		ApplicationContext app = SpringApplication.run(SelfApplication.class, args);
 	}
 
-	@GetMapping("/send")
-	public void send() throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
-		producerDemo.sendMessage();
-	}
+
+	@GetMapping("/annotation")
+  public void annotationTest() {
+	  annotationDemo.test();
+  }
 }
