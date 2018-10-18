@@ -19,7 +19,6 @@ public class SelfApplication {
 		ApplicationContext app = SpringApplication.run(SelfApplication.class, args);
 	}
 
-
 	@GetMapping("/annotation")
   public void annotationTest() {
 	  annotationDemo.test();
