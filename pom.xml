@@ -28,6 +28,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.soundbox.log</groupId>
+			<artifactId>annotation-processor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>${junit.jupiter.version}</version>
