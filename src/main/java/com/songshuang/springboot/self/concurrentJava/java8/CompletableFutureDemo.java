@@ -253,6 +253,12 @@ public class CompletableFutureDemo {
     System.out.printf("Message is %s\n", completableFuture.join());
   }
 
+  /**
+   * runAsync是没有返回值的异步执行.
+   * supplyAsync是有返回值的异步执行.
+   * @throws ExecutionException
+   * @throws InterruptedException
+   */
   private static void thenRunAsync() throws ExecutionException, InterruptedException {
     String start = "start";
 
