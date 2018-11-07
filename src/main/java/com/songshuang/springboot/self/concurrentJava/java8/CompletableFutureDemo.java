@@ -2,6 +2,7 @@ package com.songshuang.springboot.self.concurrentJava.java8;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -12,6 +13,9 @@ import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
  * Created By songshuang on 2018/4/23
  * <p>
  * Talk is cheap. Show me the code.
+ *
+ * supplyAsync 有返回值。
+ * runAsync 没有返回值。
  */
 public class CompletableFutureDemo {
 
@@ -38,6 +42,9 @@ public class CompletableFutureDemo {
     applyToEitherDemo();
 
     thenComposeDemo();
+
+    thenRunAsync();
+
   }
 
   @Data
@@ -244,5 +251,34 @@ public class CompletableFutureDemo {
                     .thenApply(s -> upper + s));
 
     System.out.printf("Message is %s\n", completableFuture.join());
+  }
+
+  private static void thenRunAsync() throws ExecutionException, InterruptedException {
+    String start = "start";
+
+    CompletableFuture<String> first = CompletableFuture.supplyAsync(() -> {
+      System.out.printf("First Thread = %s\n", start);
+      return "First";
+    });
+
+    CompletableFuture<String> second = CompletableFuture.supplyAsync(() -> {
+      System.out.printf("Second Thread = %s\n", start);
+      return "Second";
+    });
+
+    CompletableFuture<String> third = CompletableFuture.supplyAsync(() -> {
+      System.out.printf("Third Thread = %s\n", start);
+      return "Third";
+    });
+
+    CompletableFuture.allOf(first, second, third).get();
+    System.out.printf("============\n");
+    CompletableFuture.allOf(first, second, third).get();
+    System.out.printf("============\n");
+    CompletableFuture.allOf(first, second, third).get();
+    System.out.printf("============\n");
+    CompletableFuture.allOf(first, second, third).get();
+    System.out.printf("============\n");
+    CompletableFuture.allOf(first, second, third).get();
   }
 }
