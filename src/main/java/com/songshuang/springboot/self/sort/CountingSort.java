@@ -27,12 +27,12 @@ public class CountingSort {
       int a = A[j];
       C[a] += 1;
     }
-    print(C);
+//    print(C);
     // 求计数和
     for (int i = 1; i < k; i++) {
       C[i] = C[i] + C[i - 1];
     }
-    print(C);
+//    print(C);
     // 整理
     for (int j = A.length - 1; j >= 0; j--) {
       int a = A[j];
