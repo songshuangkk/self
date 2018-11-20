@@ -3,7 +3,7 @@ package com.songshuang.springboot.self.sort;
 /**
  * 计数排序.
  */
-public class CountingSort {
+public class CountingSort extends PopSort{
 
   static void print(int[] arr) {
     for (int item: arr) {
@@ -42,20 +42,6 @@ public class CountingSort {
     }
   }
 
-  static void normalSort(int[] unsorted) {
-    for (int i=0; i<unsorted.length; i++) {
-      for (int j = i+1; j<unsorted.length; j++) {
-        if (unsorted[i] > unsorted[j]) {
-          int temp = unsorted[j];
-          unsorted[j] = unsorted[i];
-          unsorted[i] = temp;
-        }
-      }
-    }
-
-    print(unsorted);
-  }
-
   public static void main(String[] args) {
     // 计数排序.
     long time = System.nanoTime();
@@ -66,7 +52,7 @@ public class CountingSort {
     // 使用冒泡排序进行一个速度校验对比.
     int[] temp = new int[]{16, 4, 4, 10, 14, 7, 9, 3, 2, 8, 1, 16, 4, 4, 10, 14, 7, 9, 3, 2, 8, 1, 16, 4, 4, 10, 14, 7, 9, 3, 2, 8, 1, 16, 4, 4, 10, 14, 7, 9, 3, 2, 8, 1};
     time = System.nanoTime();
-    normalSort(temp);
+    CountingSort.popSort(temp);
     System.out.printf("execute time = %d\n", System.nanoTime()-time);
   }
 }
