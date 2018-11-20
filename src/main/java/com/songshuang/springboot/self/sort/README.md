@@ -73,13 +73,7 @@ pigeonHole[1]的值表示1的出现次数...
 
 pigeonHole[2]的值表示2的出现次数...
 ```java
-// 鸽巢排序
-        /// </summary>
-        /// <param name="unsorted">待排数组</param>
-        /// <param name="maxNumber">待排数组中的最大数,如果可以指定的话</param>
-        /// <returns></returns>
-        static int[] pogeon_sort(int[] unsorted, int maxNumber = 10)
-        {
+ static int[] pogeon_sort(int[] unsorted, int maxNumber = 10) {
             int[] pogeonHole = new int[maxNumber + 1];
             foreach (var item in unsorted)
             {
@@ -105,4 +99,55 @@ pigeonHole[2]的值表示2的出现次数...
             }
             Console.ReadLine();
         }
+       
+```
+
+## 计数排序
+当输入的元素是 {\displaystyle n} n个 {\displaystyle 0} {\displaystyle  0 }到 {\displaystyle k}  k 之间的整数时，它的运行时间是 {\displaystyle \Theta (n+k)} {\displaystyle \Theta (n+k)}。计数排序不是比较排序，排序的速度快于任何比较排序算法。
+
+由于用来计数的数组 {\displaystyle C}  C 的长度取决于待排序数组中数据的范围（等于待排序数组的最大值与最小值的差加上1），这使得计数排序对于数据范围很大的数组，需要大量时间和内存。例如：计数排序是用来排序0到100之间的数字的最好的算法，但是它不适合按字母顺序排序人名。但是，计数排序可以用在基数排序算法中，能够更有效的排序数据范围很大的数组。
+
+通俗地理解，例如有10个年龄不同的人，统计出有8个人的年龄比A小，那A的年龄就排在第9位，用这个方法可以得到其他每个人的位置，也就排好了序。当然，年龄有重复时需要特殊处理（保证稳定性），这就是为什么最后要反向填充目标数组，以及将每个数字的统计减去1。算法的步骤如下：
+
+找出待排序的数组中最大和最小的元素
+统计数组中每个值为 {\displaystyle i} i的元素出现的次数，存入数组 {\displaystyle C}  C 的第 {\displaystyle i} i项
+对所有的计数累加（从 {\displaystyle C}  C 中的第一个元素开始，每一项和前一项相加）
+反向填充目标数组：将每个元素 {\displaystyle i} i放在新数组的第 {\displaystyle C[i]} {\displaystyle C[i]}项，每放一个元素就将 {\displaystyle C[i]} {\displaystyle C[i]}减去1
+
+```java
+public class CountingSort {
+    public static void main(String[] argv) {
+        int[] A = CountingSort.countingSort(new int[]{16, 4, 10, 14, 7, 9, 3, 2, 8, 1});
+        Utils.print(A);
+    }
+
+    public static int[] countingSort(int[] A) {
+        int[] B = new int[A.length];
+        // 假设A中的数据a'有，0<=a' && a' < k并且k=100
+        int k = 100;
+        countingSort(A, B, k);
+        return B;
+    }
+
+    private static void countingSort(int[] A, int[] B, int k) {
+        int[] C = new int[k];
+        // 计数
+        for (int j = 0; j < A.length; j++) {
+            int a = A[j];
+            C[a] += 1;
+        }
+        Utils.print(C);
+        // 求计数和
+        for (int i = 1; i < k; i++) {
+            C[i] = C[i] + C[i - 1];
+        }
+        Utils.print(C);
+        // 整理
+        for (int j = A.length - 1; j >= 0; j--) {
+            int a = A[j];
+            B[C[a] - 1] = a;
+            C[a] -= 1;
+        }
+    }
+}
 ```
