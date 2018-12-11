@@ -65,3 +65,46 @@ java -javaagent:/demo/target/my-agent.jar   test
 java -javaagent:my-agent.jar="hello world" test
 ```
 
+### 使用ByteBuddy实现Java Agent.
+ByteBuddy不仅仅是为了生成Java-Agent，它提供的API甚至可以改变重写一个Java类，本文我们使用其API实现和第二节一样的功能，给目标类中的函数统计其调用耗时。
+
+引入ByteBuddy.
+```xml
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy</artifactId>
+    <version>1.5.7</version>
+</dependency>
+
+<dependency>
+    <groupId>net.bytebuddy</groupId>
+    <artifactId>byte-buddy-agent</artifactId>
+    <version>1.5.7</version>
+</dependency>
+```
+
+更改Agent的pom文件:
+```xml
+<plugin> 
+  <groupId>org.apache.maven.plugins</groupId>  
+  <artifactId>maven-shade-plugin</artifactId>  
+  <executions> 
+    <execution> 
+      <phase>package</phase>  
+      <goals> 
+        <goal>shade</goal> 
+      </goals> 
+    </execution> 
+  </executions>  
+  <configuration> 
+    <artifactSet> 
+      <includes> 
+        <include>javassist:javassist:jar:</include>  
+        <include>net.bytebuddy:byte-buddy:jar:</include>  
+        <include>net.bytebuddy:byte-buddy-agent:jar:</include> 
+      </includes> 
+    </artifactSet> 
+  </configuration> 
+</plugin>
+```
+通过AgentBuilder方法，生成一个Agent。这里有两点需要特别说明：其一是在AgentBuilder.type处，这里可以指定需要拦截的类；其二是在builder.method处，这里可以指定需要拦截的方法。当然其API支持各种isStatic、isPublic等等一系列方式。
