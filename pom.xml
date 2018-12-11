@@ -27,6 +27,12 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.21.0-GA</version>
+		</dependency>
+
 		<!-- google jsnappy压缩 -->
 		<dependency>
 			<groupId>org.xerial.snappy</groupId>
