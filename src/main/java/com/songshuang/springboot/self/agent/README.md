@@ -108,3 +108,54 @@ ByteBuddy不仅仅是为了生成Java-Agent，它提供的API甚至可以改变�
 </plugin>
 ```
 通过AgentBuilder方法，生成一个Agent。这里有两点需要特别说明：其一是在AgentBuilder.type处，这里可以指定需要拦截的类；其二是在builder.method处，这里可以指定需要拦截的方法。当然其API支持各种isStatic、isPublic等等一系列方式。
+
+
+### ByteBuddy的使用
+
+具体调用和使用方式可以参考: [ByteBuddy][https://notes.diguage.com/byte-buddy-tutorial/#calling-a-super-method]
+
+#### 创建Java Agent
+```java
+class ToStringAgent {
+  public static void premain(String arguments, Instrumentation instrumentation) {
+    new AgentBuilder.Default()
+        .type(isAnnotatedWith(ToString.class))
+        .transform(new AgentBuilder.Transformer() {
+      @Override
+      public DynamicType.Builder transform(DynamicType.Builder builder,
+                                              TypeDescription typeDescription,
+                                              ClassLoader classloader) {
+        return builder.method(named("toString"))
+                      .intercept(FixedValue.value("transformed"));
+      }
+    }).installOn(instrumentation);
+  }
+}
+```
+
+#### 属性和方法
+
+```java
+String toString = new ByteBuddy()
+  .subclass(Object.class)
+  .name("example.Type")
+  .make()
+  .load(getClass().getClassLoader())
+  .getLoaded()
+  .newInstance() // Java reflection API
+  .toString();
+```
+
+--- 
+
+```java
+String toString = new ByteBuddy()
+  .subclass(Object.class)
+  .name("example.Type")
+  .method(named("toString")).intercept(FixedValue.value("Hello World!"))
+  .make()
+  .load(getClass().getClassLoader())
+  .getLoaded()
+  .newInstance()
+  .toString();
+```
