@@ -38,7 +38,6 @@ public class Bar {
         .getLoaded()
         .newInstance()
         .sayHelloFoo();
-
     System.out.printf("result is %s\n", r);
   }
 }
